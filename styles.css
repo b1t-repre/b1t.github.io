@@ -1,0 +1,638 @@
+/* ================================================================
+   RULETA DE LA FELICIDAD — styles.css
+   ----------------------------------------------------------------
+   Estructura de este archivo:
+   1. Variables CSS (:root)
+   2. Reset & base
+   3. Layout principal
+   4. Header
+   5. Contador
+   6. Sección de ruleta
+   7. Botón de girar
+   8. Sección de resultado
+   9. Tarjeta de reto
+  10. Tarjeta "Y recuerda..."
+  11. Botón "girar de nuevo"
+  12. Footer
+  13. Animaciones
+  14. Confeti
+  15. Media queries (desktop)
+================================================================ */
+
+
+/* ================================================================
+   1. VARIABLES CSS
+   ----------------------------------------------------------------
+   Modifica aquí para cambiar toda la apariencia de la app:
+   colores, tipografías, radios, sombras, etc.
+================================================================ */
+:root {
+  /* --- Paleta principal --- */
+  --color-bg:           #0f0e17;          /* Fondo oscuro casi negro */
+  --color-bg-soft:      #1a1827;          /* Fondo de tarjetas */
+  --color-bg-card:      #221f35;          /* Tarjetas secundarias */
+
+  --color-primary:      #f7c948;          /* Amarillo cálido — protagonista */
+  --color-primary-glow: rgba(247, 201, 72, 0.35);
+  --color-secondary:    #ff6b6b;          /* Coral/rojo alegre */
+  --color-accent:       #4ecdc4;          /* Verde-agua tech */
+  --color-accent2:      #a78bfa;          /* Violeta suave */
+  --color-accent3:      #fb923c;          /* Naranja energético */
+
+  --color-text:         #f4f0ff;          /* Blanco suave para texto principal */
+  --color-text-muted:   #8b85a8;          /* Texto secundario */
+  --color-border:       rgba(255,255,255,0.08);
+
+  /* --- Tipografía --- */
+  --font-display:  'Syne', sans-serif;    /* Títulos grandes, tech */
+  --font-body:     'Nunito', sans-serif;  /* Cuerpo, amigable */
+
+  --fs-xs:    0.75rem;   /* 12px */
+  --fs-sm:    0.875rem;  /* 14px */
+  --fs-base:  1rem;      /* 16px */
+  --fs-md:    1.125rem;  /* 18px */
+  --fs-lg:    1.375rem;  /* 22px */
+  --fs-xl:    1.75rem;   /* 28px */
+  --fs-2xl:   2.25rem;   /* 36px */
+  --fs-3xl:   3rem;      /* 48px */
+
+  /* --- Espaciado --- */
+  --space-xs:   0.25rem;
+  --space-sm:   0.5rem;
+  --space-md:   1rem;
+  --space-lg:   1.5rem;
+  --space-xl:   2rem;
+  --space-2xl:  3rem;
+
+  /* --- Bordes y radios --- */
+  --radius-sm:   0.5rem;
+  --radius-md:   1rem;
+  --radius-lg:   1.5rem;
+  --radius-xl:   2rem;
+  --radius-pill: 9999px;
+
+  /* --- Sombras --- */
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg:   0 8px 40px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 40px var(--color-primary-glow);
+
+  /* --- Transiciones --- */
+  --transition-fast:   150ms ease;
+  --transition-base:   300ms ease;
+  --transition-slow:   500ms ease;
+
+  /* --- Ruleta --- */
+  --wheel-size: min(320px, 88vw);  /* Tamaño máximo que no se sale en móvil */
+}
+
+
+/* ================================================================
+   2. RESET & BASE
+================================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100dvh;
+  overflow-x: hidden;
+
+  /* Patrón de puntos sutil para dar textura tech */
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(167, 139, 250, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.06) 0%, transparent 50%),
+    radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 28px 28px;
+}
+
+
+/* ================================================================
+   3. LAYOUT PRINCIPAL
+================================================================ */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+
+/* ================================================================
+   4. HEADER
+================================================================ */
+.site-header {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md) var(--space-lg);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.header-tag {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(78, 205, 196, 0.12);
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.site-title {
+  font-family: var(--font-display);
+  font-size: clamp(var(--fs-2xl), 10vw, var(--fs-3xl));
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+/* La palabra "Felicidad" en el título resaltada */
+.title-accent {
+  color: var(--color-primary);
+  text-shadow: 0 0 32px var(--color-primary-glow);
+  display: inline-block;
+}
+
+.site-subtitle {
+  font-size: var(--fs-md);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+
+/* ================================================================
+   5. CONTADOR
+================================================================ */
+.counter-section {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-md);
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.counter-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.counter-icon {
+  font-size: var(--fs-2xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.counter-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.counter-number {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  /* Animación de pulso cuando cambia el número */
+  transition: transform var(--transition-base), color var(--transition-base);
+}
+
+.counter-number.bump {
+  transform: scale(1.3);
+  color: var(--color-secondary);
+}
+
+.counter-label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+
+/* ================================================================
+   6. SECCIÓN DE RULETA
+================================================================ */
+.wheel-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--wheel-size);
+}
+
+/* Halo de luz detrás de la ruleta */
+.wheel-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--wheel-size) * 0.75);
+  height: calc(var(--wheel-size) * 0.75);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Puntero/flecha que indica el segmento ganador */
+.wheel-pointer {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: -10px;
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 2px 6px var(--color-primary-glow));
+  /* Pequeño pulso continuo para llamar la atención */
+  animation: pointer-pulse 2s ease-in-out infinite;
+}
+
+#wheel-canvas {
+  display: block;
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 0 6px var(--color-bg-soft),
+    0 0 0 8px rgba(247, 201, 72, 0.3),
+    var(--shadow-lg);
+  /* La rotación se aplica via JS con transform */
+  transition: transform 0.05s linear;
+}
+
+
+/* ================================================================
+   7. BOTÓN DE GIRAR
+================================================================ */
+.spin-button {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--color-bg);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: var(--space-md) var(--space-2xl);
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 #b8920a,           /* sombra "3D" inferior */
+    0 8px 24px var(--color-primary-glow);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
+  justify-content: center;
+}
+
+/* Brillo animado al hacer hover */
+.spin-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 60%;
+  height: 200%;
+  background: rgba(255,255,255,0.25);
+  transform: skewX(-20deg);
+  transition: left 0.4s ease;
+}
+
+.spin-button:hover::after {
+  left: 120%;
+}
+
+.spin-button:hover:not(:disabled) {
+  background: #ffd45c;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 #b8920a,
+    0 12px 32px var(--color-primary-glow);
+}
+
+.spin-button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    0 2px 0 #b8920a,
+    0 4px 12px var(--color-primary-glow);
+}
+
+/* Estado desactivado mientras gira */
+.spin-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-btn-icon {
+  font-size: var(--fs-md);
+}
+
+
+/* ================================================================
+   8. SECCIÓN DE RESULTADO
+================================================================ */
+.result-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+  animation: slide-up var(--transition-slow) ease both;
+}
+
+/* Clase utilitaria para ocultar/mostrar secciones */
+.hidden {
+  display: none !important;
+}
+
+
+/* ================================================================
+   9. TARJETA DE RETO
+================================================================ */
+.result-card {
+  background: var(--color-bg-soft);
+  border: 1px solid rgba(247, 201, 72, 0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl) var(--space-lg);
+  width: 100%;
+  text-align: center;
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Borde superior brillante */
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-accent));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.result-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.result-text {
+  font-family: var(--font-display);
+  font-size: clamp(var(--fs-lg), 5vw, var(--fs-xl));
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+
+/* ================================================================
+  10. TARJETA "Y RECUERDA..."
+================================================================ */
+.remember-card {
+  background: linear-gradient(135deg, #2d1f5e 0%, #1e2d4a 100%);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl) var(--space-lg);
+  width: 100%;
+  text-align: center;
+  box-shadow:
+    var(--shadow-md),
+    0 0 30px rgba(167, 139, 250, 0.15),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo suave en fondo */
+.remember-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.remember-eyebrow {
+  font-size: var(--fs-sm);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent2);
+  margin-bottom: var(--space-sm);
+}
+
+.remember-text {
+  font-size: clamp(var(--fs-md), 4.5vw, var(--fs-lg));
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+
+/* ================================================================
+  11. BOTÓN "GIRAR DE NUEVO"
+================================================================ */
+.again-button {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--color-text);
+  background: transparent;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-xl);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    color var(--transition-base),
+    background var(--transition-base);
+}
+
+.again-button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: rgba(247, 201, 72, 0.06);
+}
+
+.again-button:active {
+  transform: scale(0.97);
+}
+
+
+/* ================================================================
+  12. FOOTER
+================================================================ */
+.site-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-md);
+}
+
+
+/* ================================================================
+  13. ANIMACIONES
+================================================================ */
+
+/* Entrada de tarjetas de resultado */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulso del puntero */
+@keyframes pointer-pulse {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(4px); }
+}
+
+/* Bump de número del contador */
+@keyframes counter-bump {
+  0%   { transform: scale(1);   }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1);   }
+}
+
+.counter-number.bump {
+  animation: counter-bump 0.4s ease both;
+}
+
+
+/* ================================================================
+  14. CONFETI
+  ----------------------------------------------------------------
+  Las partículas se crean con JS; solo definimos estilos base aquí.
+================================================================ */
+#confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(720deg) scale(0.5);
+  }
+}
+
+
+/* ================================================================
+  15. MEDIA QUERIES — DESKTOP
+================================================================ */
+@media (min-width: 600px) {
+  :root {
+    --wheel-size: 380px;
+  }
+
+  .site-header {
+    padding-top: var(--space-2xl);
+  }
+
+  .counter-card {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --wheel-size: 420px;
+  }
+
+  body {
+    background-size: 100% 100%, 100% 100%, 32px 32px;
+  }
+
+  .site-header {
+    padding: 3.5rem var(--space-md) var(--space-xl);
+  }
+
+  /* En desktop el main tiene un poco más de respiro */
+  .main-content {
+    gap: var(--space-2xl);
+    padding-bottom: 4rem;
+  }
+}
