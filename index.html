@@ -3,17 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Ruleta de la felicidad – Día de la Felicidad en el campus de ingenierías" />
-  <title>🎡 Ruleta de la Felicidad</title>
-
-  <!-- Google Fonts: Nunito (cuerpo amigable) + Syne (display tech) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Syne:wght@700;800&display=swap"
-    rel="stylesheet"
-  />
-
+  <meta name="description" content="Ruleta de la Felicidad – Día de la Felicidad ITAM" />
+  <title>Ruleta de la Felicidad · ITAM</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -27,39 +18,50 @@
        ENCABEZADO
   ============================================================ -->
   <header class="site-header">
-    <p class="header-tag">✨ Día Internacional de la Felicidad</p>
-    <h1 class="site-title">Ruleta de la<br /><span class="title-accent">Felicidad</span></h1>
-    <p class="site-subtitle">Gira, cumple tu reto y contagia alegría por el campus 🚀</p>
+    <p class="header-tag">✦ Día Internacional de la Felicidad</p>
+    <h1 class="site-title">Ruleta de la <span class="title-accent">Felicidad</span></h1>
+    <p class="site-subtitle">Gira y descubre tu reto del día</p>
   </header>
 
   <!-- ============================================================
-       CONTADOR DE PERSONAS FELICES
-  ============================================================ -->
-  <section class="counter-section" aria-label="Contador de personas felices hoy">
-    <div class="counter-card">
-      <span class="counter-icon">😄</span>
-      <div class="counter-text">
-        <span id="counter-number" class="counter-number">0</span>
-        <span class="counter-label">personas se han hecho felices<br />hoy en el campus</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       SECCIÓN PRINCIPAL: RULETA
+       SECCIÓN PRINCIPAL: RULETA + MASCOTAS
   ============================================================ -->
   <main class="main-content">
 
-    <!-- Contenedor de la ruleta con flecha indicadora -->
-    <div class="wheel-wrapper" role="img" aria-label="Ruleta de retos">
+    <!-- Fila que contiene mascota izquierda + ruleta + mascota derecha -->
+    <div class="wheel-row">
 
-      <!-- Flecha/marcador superior -->
-      <div class="wheel-pointer" aria-hidden="true">▼</div>
+      <!-- Mascota izquierda
+           Coloca bit1.png en la misma carpeta que index.html.
+           Si la imagen no existe, se oculta automáticamente. -->
+      <div class="mascot mascot--left" aria-hidden="true">
+        <img
+          src="bit1.png"
+          alt="Mascota b1t"
+          class="mascot-img"
+          onerror="this.style.display='none'"
+        />
+      </div>
 
-      <!-- Canvas donde se dibuja la ruleta -->
-      <canvas id="wheel-canvas" width="320" height="320"></canvas>
+      <!-- Ruleta -->
+      <div class="wheel-wrapper" role="img" aria-label="Ruleta de retos">
+        <div class="wheel-pointer" aria-hidden="true">▼</div>
+        <canvas id="wheel-canvas" width="320" height="320"></canvas>
+      </div>
 
-    </div>
+      <!-- Mascota derecha
+           Coloca bit2.png en la misma carpeta que index.html.
+           Puede ser la misma imagen que bit1.png o una variante. -->
+      <div class="mascot mascot--right" aria-hidden="true">
+        <img
+          src="bit2.png"
+          alt="Mascota b1t"
+          class="mascot-img"
+          onerror="this.style.display='none'"
+        />
+      </div>
+
+    </div><!-- /wheel-row -->
 
     <!-- Botón para girar -->
     <button
@@ -68,23 +70,23 @@
       aria-label="Girar la ruleta"
       onclick="handleSpinClick()"
     >
-      <span class="spin-btn-icon">🎡</span> ¡Gira tu suerte!
+      ¡Gira tu suerte!
     </button>
 
     <!-- =========================================================
-         ZONA DE RESULTADO (oculta hasta que se completa el giro)
+         ZONA DE RESULTADO (oculta hasta que termina el giro)
     ========================================================== -->
     <section id="result-section" class="result-section hidden" aria-live="polite">
 
       <!-- Reto obtenido -->
       <div class="result-card">
-        <p class="result-label">Tu reto de hoy es…</p>
+        <p class="result-label">Tu reto de hoy</p>
         <p id="result-text" class="result-text"></p>
       </div>
 
-      <!-- Mensaje "Y recuerda..." con estilo especial -->
+      <!-- Tarjeta especial "Y recuerda..." -->
       <div class="remember-card">
-        <p class="remember-eyebrow">💛 Y recuerda…</p>
+        <p class="remember-eyebrow">Y recuerda…</p>
         <p id="remember-text" class="remember-text"></p>
       </div>
 
@@ -94,7 +96,7 @@
         aria-label="Volver a girar la ruleta"
         onclick="resetForNewSpin()"
       >
-        🔄 Girar de nuevo
+        Girar de nuevo
       </button>
 
     </section>
@@ -105,7 +107,7 @@
        FOOTER
   ============================================================ -->
   <footer class="site-footer">
-    <p>Hecho con cariño para alegrar el día en el campus 💻❤️</p>
+    <p>Hecho con cariño para alegrar el día en el campus &middot; ITAM</p>
   </footer>
 
   <script src="script.js"></script>
