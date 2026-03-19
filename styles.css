@@ -28,16 +28,16 @@
 ================================================================ */
 :root {
   /* --- Paleta principal --- */
-  --color-bg:           #0f0e17;          /* Fondo oscuro casi negro */
-  --color-bg-soft:      #1a1827;          /* Fondo de tarjetas */
-  --color-bg-card:      #221f35;          /* Tarjetas secundarias */
+  --color-bg:           #151d12;          /* Fondo oscuro casi negro */
+  --color-bg-soft:      #23321e;          /* Fondo de tarjetas */
+  --color-bg-card:      #2b3e25;          /* Tarjetas secundarias */
 
-  --color-primary:      #f7c948;          /* Amarillo cálido — protagonista */
-  --color-primary-glow: rgba(247, 201, 72, 0.35);
-  --color-secondary:    #ff6b6b;          /* Coral/rojo alegre */
-  --color-accent:       #4ecdc4;          /* Verde-agua tech */
-  --color-accent2:      #a78bfa;          /* Violeta suave */
-  --color-accent3:      #fb923c;          /* Naranja energético */
+  --color-primary:      #1629a5;          /* Amarillo cálido — protagonista */
+  --color-primary-glow: rgba(130, 145, 232, 0.35);
+  --color-secondary:    #7c6bff;          /* Coral/rojo alegre */
+  --color-accent:       #253d80;          /* Verde-agua tech */
+  --color-accent2:      #3b2382;          /* Violeta suave */
+  --color-accent3:      #3c65bd;          /* Naranja energético */
 
   --color-text:         #f4f0ff;          /* Blanco suave para texto principal */
   --color-text-muted:   #8b85a8;          /* Texto secundario */
